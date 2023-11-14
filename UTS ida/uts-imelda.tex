@@ -1,0 +1,669 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+%
+\documentclass[
+]{article}
+\usepackage{amsmath,amssymb}
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math} % this also loads fontspec
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+\usepackage{lmodern}
+\ifPDFTeX\else
+  % xetex/luatex font selection
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{xcolor}
+\usepackage[margin=1in]{geometry}
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{248,248,248}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{#1}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\BuiltInTok}[1]{#1}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{#1}}}
+\newcommand{\ExtensionTok}[1]{#1}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\ImportTok}[1]{#1}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\NormalTok}[1]{#1}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\RegionMarkerTok}[1]{#1}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\usepackage{graphicx}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+% Set default figure placement to htbp
+\makeatletter
+\def\fps@figure{htbp}
+\makeatother
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+\ifLuaTeX
+  \usepackage{selnolig}  % disable illegal ligatures
+\fi
+\IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\urlstyle{same}
+\hypersetup{
+  pdftitle={UTS\_202111547},
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+
+\title{UTS\_202111547}
+\author{}
+\date{\vspace{-2.5em}2023-11-09}
+
+\begin{document}
+\maketitle
+
+\hypertarget{baca-file-dataset-mall_customers.xlsx}{%
+\subsection{Baca file dataset
+Mall\_Customers.xlsx}\label{baca-file-dataset-mall_customers.xlsx}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{nama\_file }\OtherTok{\textless{}{-}} \StringTok{"./Mall\_Customers.xlsx"}
+\NormalTok{data\_excel }\OtherTok{\textless{}{-}} \FunctionTok{read\_excel}\NormalTok{(nama\_file)}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{mengubah-nama-kolom-untuk-memudahkan-pemanggilan-dataset}{%
+\subsection{Mengubah nama kolom untuk memudahkan pemanggilan
+dataset}\label{mengubah-nama-kolom-untuk-memudahkan-pemanggilan-dataset}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{data\_excel }\OtherTok{\textless{}{-}}\NormalTok{ data\_excel }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{rename}\NormalTok{(}
+    \AttributeTok{customer\_id =}\NormalTok{ CustomerID,}
+    \AttributeTok{gender =}\NormalTok{ Genre,}
+    \AttributeTok{age =}\NormalTok{ Age,}
+    \AttributeTok{annual\_income =} \StringTok{\textasciigrave{}}\AttributeTok{Annual Income (k$)}\StringTok{\textasciigrave{}}\NormalTok{,}
+    \AttributeTok{spending\_score =} \StringTok{\textasciigrave{}}\AttributeTok{Spending Score (1{-}100)}\StringTok{\textasciigrave{}}
+\NormalTok{  )}
+
+\FunctionTok{print}\NormalTok{(}\FunctionTok{head}\NormalTok{(data\_excel, }\DecValTok{5}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## # A tibble: 5 x 5
+##   customer_id gender   age annual_income spending_score
+##         <dbl> <chr>  <dbl>         <dbl>          <dbl>
+## 1           1 Male      19            15             39
+## 2           2 Male      21            15             81
+## 3           3 Female    20            16              6
+## 4           4 Female    23            16             77
+## 5           5 Female    31            17             40
+\end{verbatim}
+
+\hypertarget{exploratory-data-analysis-eda-pada-dataset-mall-customer}{%
+\section{Exploratory Data Analysis (EDA) pada dataset ``Mall
+Customer''}\label{exploratory-data-analysis-eda-pada-dataset-mall-customer}}
+
+\hypertarget{ringkasan-statistik}{%
+\subsubsection{Ringkasan statistik}\label{ringkasan-statistik}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{summary}\NormalTok{(data\_excel)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##   customer_id        gender               age        annual_income   
+##  Min.   :  1.00   Length:200         Min.   :18.00   Min.   : 15.00  
+##  1st Qu.: 50.75   Class :character   1st Qu.:28.75   1st Qu.: 41.50  
+##  Median :100.50   Mode  :character   Median :36.00   Median : 61.50  
+##  Mean   :100.50                      Mean   :38.85   Mean   : 60.56  
+##  3rd Qu.:150.25                      3rd Qu.:49.00   3rd Qu.: 78.00  
+##  Max.   :200.00                      Max.   :70.00   Max.   :137.00  
+##  spending_score 
+##  Min.   : 1.00  
+##  1st Qu.:34.75  
+##  Median :50.00  
+##  Mean   :50.20  
+##  3rd Qu.:73.00  
+##  Max.   :99.00
+\end{verbatim}
+
+\hypertarget{cek-jika-ada-data-kosong}{%
+\subsubsection{Cek jika ada data
+kosong}\label{cek-jika-ada-data-kosong}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{any}\NormalTok{(}\FunctionTok{is.na}\NormalTok{(data\_excel))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] FALSE
+\end{verbatim}
+
+\hypertarget{cek-jika-terdapat-outlier-pada-dataset}{%
+\subsubsection{Cek jika terdapat outlier pada
+dataset}\label{cek-jika-terdapat-outlier-pada-dataset}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{boxplot}\NormalTok{(data\_excel[, }\FunctionTok{c}\NormalTok{(}\StringTok{"age"}\NormalTok{, }\StringTok{"annual\_income"}\NormalTok{, }\StringTok{"spending\_score"}\NormalTok{)])}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{uts-imelda_files/figure-latex/unnamed-chunk-6-1.pdf}
+Berdasarkan box plot diatas terlihat jika pada kolom annual\_income
+terdapat outlier sehingga harus dihapus outlier pada dataset.
+
+\hypertarget{identifikasi-baris-yang-memiliki-outlier-pada-kolom-annual_income}{%
+\subsubsection{Identifikasi baris yang memiliki outlier pada kolom
+annual\_income}\label{identifikasi-baris-yang-memiliki-outlier-pada-kolom-annual_income}}
+
+\hypertarget{lalu-dilakukan-penghapusan-pada-baris-yang-memiliki-outlier}{%
+\subsubsection{lalu dilakukan penghapusan pada baris yang memiliki
+outlier}\label{lalu-dilakukan-penghapusan-pada-baris-yang-memiliki-outlier}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{identify\_outliers }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(x) \{}
+\NormalTok{  q1 }\OtherTok{\textless{}{-}} \FunctionTok{quantile}\NormalTok{(x, }\FloatTok{0.25}\NormalTok{)}
+\NormalTok{  q3 }\OtherTok{\textless{}{-}} \FunctionTok{quantile}\NormalTok{(x, }\FloatTok{0.75}\NormalTok{)}
+\NormalTok{  iqr }\OtherTok{\textless{}{-}}\NormalTok{ q3 }\SpecialCharTok{{-}}\NormalTok{ q1}
+\NormalTok{  lower\_bound }\OtherTok{\textless{}{-}}\NormalTok{ q1 }\SpecialCharTok{{-}} \FloatTok{1.5} \SpecialCharTok{*}\NormalTok{ iqr}
+\NormalTok{  upper\_bound }\OtherTok{\textless{}{-}}\NormalTok{ q3 }\SpecialCharTok{+} \FloatTok{1.5} \SpecialCharTok{*}\NormalTok{ iqr}
+  
+\NormalTok{  outliers }\OtherTok{\textless{}{-}}\NormalTok{ x[x }\SpecialCharTok{\textless{}}\NormalTok{ lower\_bound }\SpecialCharTok{|}\NormalTok{ x }\SpecialCharTok{\textgreater{}}\NormalTok{ upper\_bound]}
+  \FunctionTok{return}\NormalTok{(outliers)}
+\NormalTok{\}}
+
+\CommentTok{\# Menghitung jumlah baris sebelum menghapus outlier}
+\NormalTok{jumlah\_baris\_sebelum }\OtherTok{\textless{}{-}} \FunctionTok{nrow}\NormalTok{(data\_excel)}
+
+\CommentTok{\# Identifikasi outlier pada annual\_income}
+\NormalTok{outliers\_annual\_income }\OtherTok{\textless{}{-}} \FunctionTok{identify\_outliers}\NormalTok{(data\_excel}\SpecialCharTok{$}\NormalTok{annual\_income)}
+\NormalTok{data\_excel }\OtherTok{\textless{}{-}}\NormalTok{ data\_excel[}\SpecialCharTok{!}\NormalTok{(data\_excel}\SpecialCharTok{$}\NormalTok{annual\_income }\SpecialCharTok{\%in\%}\NormalTok{ outliers\_annual\_income), ]}
+
+\CommentTok{\# Menghitung jumlah baris setelah menghapus outlier}
+\NormalTok{jumlah\_baris\_sesudah }\OtherTok{\textless{}{-}} \FunctionTok{nrow}\NormalTok{(data\_excel)}
+
+\CommentTok{\# Menampilkan hasil}
+\FunctionTok{print}\NormalTok{(}\FunctionTok{paste}\NormalTok{(}\StringTok{"Jumlah baris sebelum menghapus outlier pada annual\_income:"}\NormalTok{, jumlah\_baris\_sebelum))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "Jumlah baris sebelum menghapus outlier pada annual_income: 200"
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{print}\NormalTok{(}\FunctionTok{paste}\NormalTok{(}\StringTok{"Jumlah baris setelah menghapus outlier pada annual\_income:"}\NormalTok{, jumlah\_baris\_sesudah))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "Jumlah baris setelah menghapus outlier pada annual_income: 198"
+\end{verbatim}
+
+\hypertarget{visualisasi-distribusi-data-usia-menggunakan-histogram}{%
+\subsubsection{Visualisasi distribusi data usia menggunakan
+histogram}\label{visualisasi-distribusi-data-usia-menggunakan-histogram}}
+
+\includegraphics{uts-imelda_files/figure-latex/unnamed-chunk-8-1.pdf}
+\#\#\# Visualisasi distribusi data pendatan tahunan menggunakan
+histogram
+\includegraphics{uts-imelda_files/figure-latex/unnamed-chunk-9-1.pdf}
+\#\#\# Visualisasi distribusi data spending score menggunakan histogram
+\includegraphics{uts-imelda_files/figure-latex/unnamed-chunk-10-1.pdf}
+\#\#\# Visualisasi distribusi data gender menggunakan histogram
+\includegraphics{uts-imelda_files/figure-latex/unnamed-chunk-11-1.pdf}
+\#\#\# Hubungan Antara Pendapatan Tahunan dan Umur (berdasarkan Gender)
+\includegraphics{uts-imelda_files/figure-latex/unnamed-chunk-12-1.pdf}
+\#\#\# Hubungan Antara Skor Pengeluaran dan Umur (berdasarkan Gender)
+\includegraphics{uts-imelda_files/figure-latex/unnamed-chunk-13-1.pdf}
+
+\hypertarget{hubungan-antara-pendapatan-tahunan-dan-skor-pengeluaran-berdasarkan-gender}{%
+\subsubsection{Hubungan Antara Pendapatan Tahunan dan Skor Pengeluaran
+(berdasarkan
+Gender)}\label{hubungan-antara-pendapatan-tahunan-dan-skor-pengeluaran-berdasarkan-gender}}
+
+\includegraphics{uts-imelda_files/figure-latex/unnamed-chunk-14-1.pdf}
+\#\#\# Menghitung jumlah pelanggan dalam setiap kelompok umur
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Menentukan batas umur}
+\NormalTok{batas\_umur }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\DecValTok{15}\NormalTok{, }\DecValTok{25}\NormalTok{, }\DecValTok{35}\NormalTok{, }\DecValTok{45}\NormalTok{, }\DecValTok{55}\NormalTok{, }\ConstantTok{Inf}\NormalTok{)}
+
+\CommentTok{\# Menghitung jumlah pelanggan dalam setiap kelompok umur}
+\NormalTok{jumlah\_pelanggan }\OtherTok{\textless{}{-}} \FunctionTok{cut}\NormalTok{(data\_excel}\SpecialCharTok{$}\NormalTok{age, }\AttributeTok{breaks =}\NormalTok{ batas\_umur, }\AttributeTok{labels =} \FunctionTok{c}\NormalTok{(}\StringTok{"15\_25"}\NormalTok{, }\StringTok{"26\_35"}\NormalTok{, }\StringTok{"36\_45"}\NormalTok{, }\StringTok{"45\_55"}\NormalTok{, }\StringTok{"diatas\_55"}\NormalTok{), }\AttributeTok{right =} \ConstantTok{FALSE}\NormalTok{)}
+\NormalTok{jumlah\_pelanggan }\OtherTok{\textless{}{-}} \FunctionTok{table}\NormalTok{(jumlah\_pelanggan)}
+
+\CommentTok{\# Membuat plot bar}
+\FunctionTok{barplot}\NormalTok{(jumlah\_pelanggan, }\AttributeTok{col =} \FunctionTok{rainbow}\NormalTok{(}\FunctionTok{length}\NormalTok{(jumlah\_pelanggan)), }
+        \AttributeTok{main =} \StringTok{"Barplot Umur Pelanggan"}\NormalTok{, }\AttributeTok{xlab =} \StringTok{"Umur"}\NormalTok{, }\AttributeTok{ylab =} \StringTok{"Jumlah Pelanggan"}\NormalTok{, }
+        \AttributeTok{names.arg =} \FunctionTok{c}\NormalTok{(}\StringTok{"15\_25"}\NormalTok{, }\StringTok{"26\_35"}\NormalTok{, }\StringTok{"36\_45"}\NormalTok{, }\StringTok{"45\_55"}\NormalTok{, }\StringTok{"diatas\_55"}\NormalTok{), }
+        \AttributeTok{border =} \StringTok{"black"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{uts-imelda_files/figure-latex/unnamed-chunk-15-1.pdf}
+\#\#\# Menghitung jumlah pelanggan dalam setiap kelompok Spending Score
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Menghitung jumlah pelanggan dalam setiap kelompok Spending Score}
+\NormalTok{ss1\_20 }\OtherTok{\textless{}{-}} \FunctionTok{sum}\NormalTok{(data\_excel}\SpecialCharTok{$}\NormalTok{spending\_score }\SpecialCharTok{\textgreater{}=} \DecValTok{1} \SpecialCharTok{\&}\NormalTok{ data\_excel}\SpecialCharTok{$}\NormalTok{spending\_score }\SpecialCharTok{\textless{}=} \DecValTok{20}\NormalTok{)}
+\NormalTok{ss21\_40 }\OtherTok{\textless{}{-}} \FunctionTok{sum}\NormalTok{(data\_excel}\SpecialCharTok{$}\NormalTok{spending\_score }\SpecialCharTok{\textgreater{}=} \DecValTok{21} \SpecialCharTok{\&}\NormalTok{ data\_excel}\SpecialCharTok{$}\NormalTok{spending\_score }\SpecialCharTok{\textless{}=} \DecValTok{40}\NormalTok{)}
+\NormalTok{ss41\_60 }\OtherTok{\textless{}{-}} \FunctionTok{sum}\NormalTok{(data\_excel}\SpecialCharTok{$}\NormalTok{spending\_score }\SpecialCharTok{\textgreater{}=} \DecValTok{41} \SpecialCharTok{\&}\NormalTok{ data\_excel}\SpecialCharTok{$}\NormalTok{spending\_score }\SpecialCharTok{\textless{}=} \DecValTok{60}\NormalTok{)}
+\NormalTok{ss61\_80 }\OtherTok{\textless{}{-}} \FunctionTok{sum}\NormalTok{(data\_excel}\SpecialCharTok{$}\NormalTok{spending\_score }\SpecialCharTok{\textgreater{}=} \DecValTok{61} \SpecialCharTok{\&}\NormalTok{ data\_excel}\SpecialCharTok{$}\NormalTok{spending\_score }\SpecialCharTok{\textless{}=} \DecValTok{80}\NormalTok{)}
+\NormalTok{ss81\_100 }\OtherTok{\textless{}{-}} \FunctionTok{sum}\NormalTok{(data\_excel}\SpecialCharTok{$}\NormalTok{spending\_score }\SpecialCharTok{\textgreater{}=} \DecValTok{81} \SpecialCharTok{\&}\NormalTok{ data\_excel}\SpecialCharTok{$}\NormalTok{spending\_score }\SpecialCharTok{\textless{}=} \DecValTok{100}\NormalTok{)}
+
+\CommentTok{\# Membuat plot bar}
+\NormalTok{x }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\StringTok{"1\_20"}\NormalTok{, }\StringTok{"21\_40"}\NormalTok{, }\StringTok{"41\_60"}\NormalTok{, }\StringTok{"61\_80"}\NormalTok{, }\StringTok{"81\_100"}\NormalTok{)}
+\NormalTok{y }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(ss1\_20, ss21\_40, ss41\_60, ss61\_80, ss81\_100)}
+\FunctionTok{barplot}\NormalTok{(y, }\AttributeTok{col =} \FunctionTok{rainbow}\NormalTok{(}\FunctionTok{length}\NormalTok{(y)), }
+        \AttributeTok{main =} \StringTok{"Spending Scores"}\NormalTok{, }\AttributeTok{xlab =} \StringTok{"Score"}\NormalTok{, }\AttributeTok{ylab =} \StringTok{"Jumlah Pelanggan"}\NormalTok{, }
+        \AttributeTok{names.arg =}\NormalTok{ x, }\AttributeTok{border =} \StringTok{"black"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{uts-imelda_files/figure-latex/unnamed-chunk-16-1.pdf}
+\#\#\# Menghitung jumlah pelanggan dalam setiap kelompok Annual Income
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{ai0\_30 }\OtherTok{\textless{}{-}} \FunctionTok{sum}\NormalTok{(data\_excel}\SpecialCharTok{$}\NormalTok{annual\_income }\SpecialCharTok{\textgreater{}=} \DecValTok{0} \SpecialCharTok{\&}\NormalTok{ data\_excel}\SpecialCharTok{$}\NormalTok{annual\_income }\SpecialCharTok{\textless{}=} \DecValTok{30}\NormalTok{)}
+\NormalTok{ai31\_60 }\OtherTok{\textless{}{-}} \FunctionTok{sum}\NormalTok{(data\_excel}\SpecialCharTok{$}\NormalTok{annual\_income }\SpecialCharTok{\textgreater{}=} \DecValTok{31} \SpecialCharTok{\&}\NormalTok{ data\_excel}\SpecialCharTok{$}\NormalTok{annual\_income }\SpecialCharTok{\textless{}=} \DecValTok{60}\NormalTok{)}
+\NormalTok{ai61\_90 }\OtherTok{\textless{}{-}} \FunctionTok{sum}\NormalTok{(data\_excel}\SpecialCharTok{$}\NormalTok{annual\_income }\SpecialCharTok{\textgreater{}=} \DecValTok{61} \SpecialCharTok{\&}\NormalTok{ data\_excel}\SpecialCharTok{$}\NormalTok{annual\_income }\SpecialCharTok{\textless{}=} \DecValTok{90}\NormalTok{)}
+\NormalTok{ai91\_120 }\OtherTok{\textless{}{-}} \FunctionTok{sum}\NormalTok{(data\_excel}\SpecialCharTok{$}\NormalTok{annual\_income }\SpecialCharTok{\textgreater{}=} \DecValTok{91} \SpecialCharTok{\&}\NormalTok{ data\_excel}\SpecialCharTok{$}\NormalTok{annual\_income }\SpecialCharTok{\textless{}=} \DecValTok{120}\NormalTok{)}
+\NormalTok{ai121\_150 }\OtherTok{\textless{}{-}} \FunctionTok{sum}\NormalTok{(data\_excel}\SpecialCharTok{$}\NormalTok{annual\_income }\SpecialCharTok{\textgreater{}=} \DecValTok{121} \SpecialCharTok{\&}\NormalTok{ data\_excel}\SpecialCharTok{$}\NormalTok{annual\_income }\SpecialCharTok{\textless{}=} \DecValTok{150}\NormalTok{)}
+
+\CommentTok{\# Membuat plot bar}
+\NormalTok{x }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\StringTok{"0\_30"}\NormalTok{, }\StringTok{"31\_60"}\NormalTok{, }\StringTok{"61\_90"}\NormalTok{, }\StringTok{"91\_120"}\NormalTok{, }\StringTok{"120\_150"}\NormalTok{)}
+\NormalTok{y }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(ai0\_30, ai31\_60, ai61\_90, ai91\_120, ai121\_150)}
+\FunctionTok{barplot}\NormalTok{(y, }\AttributeTok{col =} \FunctionTok{rainbow}\NormalTok{(}\FunctionTok{length}\NormalTok{(y)), }
+        \AttributeTok{main =} \StringTok{"Annual Income(k$)"}\NormalTok{, }\AttributeTok{xlab =} \StringTok{"Pendapatan Tahunan"}\NormalTok{, }
+        \AttributeTok{ylab =} \StringTok{"Jumlah Pelanggan"}\NormalTok{, }\AttributeTok{names.arg =}\NormalTok{ x, }\AttributeTok{border =} \StringTok{"black"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{uts-imelda_files/figure-latex/unnamed-chunk-17-1.pdf}
+
+\hypertarget{k-means-clustering}{%
+\section{K-Means Clustering}\label{k-means-clustering}}
+
+\hypertarget{pilih-fitur-yang-akan-digunakan-untuk-clustering}{%
+\subsubsection{Pilih fitur yang akan digunakan untuk
+clustering}\label{pilih-fitur-yang-akan-digunakan-untuk-clustering}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{fitur\_clustering }\OtherTok{\textless{}{-}} \FunctionTok{select}\NormalTok{(data\_excel, age, annual\_income, spending\_score)}
+\NormalTok{encoded\_gender }\OtherTok{\textless{}{-}} \FunctionTok{model.matrix}\NormalTok{(}\SpecialCharTok{\textasciitilde{}}\NormalTok{ gender }\SpecialCharTok{{-}} \DecValTok{1}\NormalTok{, }\AttributeTok{data =}\NormalTok{ data\_excel)}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{normalisasi-data}{%
+\subsubsection{Normalisasi data}\label{normalisasi-data}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{fitur\_clustering\_scaled }\OtherTok{\textless{}{-}} \FunctionTok{scale}\NormalTok{(fitur\_clustering)}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{menentukan-jumlah-cluster-dengan-metode-elbow}{%
+\subsubsection{Menentukan jumlah cluster dengan metode
+elbow}\label{menentukan-jumlah-cluster-dengan-metode-elbow}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{wss }\OtherTok{\textless{}{-}}\NormalTok{ (}\FunctionTok{nrow}\NormalTok{(fitur\_clustering\_scaled) }\SpecialCharTok{{-}} \DecValTok{1}\NormalTok{) }\SpecialCharTok{*} \FunctionTok{sum}\NormalTok{(}\FunctionTok{apply}\NormalTok{(fitur\_clustering\_scaled, }\DecValTok{2}\NormalTok{, var))}
+\ControlFlowTok{for}\NormalTok{ (i }\ControlFlowTok{in} \DecValTok{1}\SpecialCharTok{:}\DecValTok{10}\NormalTok{) wss[i] }\OtherTok{\textless{}{-}} \FunctionTok{sum}\NormalTok{(}\FunctionTok{kmeans}\NormalTok{(fitur\_clustering\_scaled, }\AttributeTok{centers =}\NormalTok{ i)}\SpecialCharTok{$}\NormalTok{withinss)}
+\FunctionTok{plot}\NormalTok{(}\DecValTok{1}\SpecialCharTok{:}\DecValTok{10}\NormalTok{, wss, }\AttributeTok{type=}\StringTok{"b"}\NormalTok{, }\AttributeTok{xlab=}\StringTok{"Number of Clusters"}\NormalTok{, }\AttributeTok{ylab=}\StringTok{"Within groups sum of squares"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{uts-imelda_files/figure-latex/unnamed-chunk-20-1.pdf}
+
+\hypertarget{berdasarkan-plot-jumlah-cluster-optimal-berdasarkan-plot-dengan-metode-elbow-dipilih-5}{%
+\subsubsection{Berdasarkan plot, jumlah cluster optimal berdasarkan plot
+dengan metode elbow dipilih
+5}\label{berdasarkan-plot-jumlah-cluster-optimal-berdasarkan-plot-dengan-metode-elbow-dipilih-5}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{jumlah\_cluster }\OtherTok{\textless{}{-}} \DecValTok{5}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{melakukan-clustering-dengan-k-means}{%
+\subsubsection{Melakukan clustering dengan
+K-Means}\label{melakukan-clustering-dengan-k-means}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{fitur\_clustering\_scaled }\OtherTok{\textless{}{-}}\NormalTok{ fitur\_clustering\_scaled[, }\FunctionTok{c}\NormalTok{(}\StringTok{"annual\_income"}\NormalTok{, }\StringTok{"spending\_score"}\NormalTok{)]}
+\NormalTok{kmeans\_model }\OtherTok{\textless{}{-}} \FunctionTok{kmeans}\NormalTok{(fitur\_clustering\_scaled, }\AttributeTok{centers =}\NormalTok{ jumlah\_cluster)}
+\NormalTok{data\_excel}\SpecialCharTok{$}\NormalTok{cluster }\OtherTok{\textless{}{-}}\NormalTok{ kmeans\_model}\SpecialCharTok{$}\NormalTok{cluster}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{scatter-plot-hasil-dari-clustering}{%
+\subsubsection{Scatter plot hasil dari
+clustering}\label{scatter-plot-hasil-dari-clustering}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{ggplot}\NormalTok{(data\_excel, }\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ annual\_income, }\AttributeTok{y =}\NormalTok{ spending\_score, }\AttributeTok{color =} \FunctionTok{as.factor}\NormalTok{(cluster))) }\SpecialCharTok{+}
+  \FunctionTok{geom\_point}\NormalTok{() }\SpecialCharTok{+}
+  \FunctionTok{labs}\NormalTok{(}\AttributeTok{title =} \StringTok{"Hasil Clustering"}\NormalTok{, }\AttributeTok{x =} \StringTok{"Pendapatan Tahunan"}\NormalTok{, }\AttributeTok{y =} \StringTok{"Skor Pengeluaran"}\NormalTok{, }\AttributeTok{color =} \StringTok{"Cluster"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{theme\_minimal}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{uts-imelda_files/figure-latex/unnamed-chunk-23-1.pdf}
+\#\#\# Boxplot untuk distribusi Pendapatan Tahunan berdasarkan Label
+dari K-Means Clustering
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Membuat boxplot menggunakan ggplot}
+
+\FunctionTok{ggplot}\NormalTok{(}\AttributeTok{data =}\NormalTok{ data\_excel, }\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =} \FunctionTok{as.factor}\NormalTok{(cluster), }\AttributeTok{y =}\NormalTok{ annual\_income, }\AttributeTok{fill =} \FunctionTok{as.factor}\NormalTok{(cluster))) }\SpecialCharTok{+}
+  \FunctionTok{geom\_boxplot}\NormalTok{() }\SpecialCharTok{+}
+  \FunctionTok{labs}\NormalTok{(}\AttributeTok{title =} \StringTok{"Pendapatan Tahunan Pelanggan Berdasarkan Label K{-}Means Clustering"}\NormalTok{, }
+       \AttributeTok{x =} \StringTok{"Label"}\NormalTok{, }\AttributeTok{y =} \StringTok{"Pendapatan Tahunan (k$)"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{theme\_minimal}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{uts-imelda_files/figure-latex/unnamed-chunk-24-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Boxplot untuk distribusi Spending Score berdasarkan Label dari K{-}Means Clustering}
+\FunctionTok{ggplot}\NormalTok{(}\AttributeTok{data =}\NormalTok{ data\_excel, }\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =} \FunctionTok{as.factor}\NormalTok{(cluster), }\AttributeTok{y =}\NormalTok{ spending\_score, }\AttributeTok{fill =} \FunctionTok{as.factor}\NormalTok{(cluster))) }\SpecialCharTok{+}
+  \FunctionTok{geom\_boxplot}\NormalTok{() }\SpecialCharTok{+}
+  \FunctionTok{labs}\NormalTok{(}\AttributeTok{title =} \StringTok{"Spending Score Pelanggan Berdasarkan Label K{-}Means Clustering"}\NormalTok{, }
+       \AttributeTok{x =} \StringTok{"Label"}\NormalTok{, }\AttributeTok{y =} \StringTok{"Spending Score"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{theme\_minimal}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{uts-imelda_files/figure-latex/unnamed-chunk-25-1.pdf}
+\#\#\# Menampilkan informasi tentang setiap kelompok dari hasil k-means
+clustering
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ControlFlowTok{for}\NormalTok{ (label\_value }\ControlFlowTok{in} \FunctionTok{unique}\NormalTok{(data\_excel}\SpecialCharTok{$}\NormalTok{cluster)) \{}
+\NormalTok{  cust\_group }\OtherTok{\textless{}{-}}\NormalTok{ data\_excel[data\_excel}\SpecialCharTok{$}\NormalTok{cluster }\SpecialCharTok{==}\NormalTok{ label\_value, ]}
+  \FunctionTok{cat}\NormalTok{(}\StringTok{"Jumlah pelanggan dalam kelompok"}\NormalTok{, label\_value, }\StringTok{"="}\NormalTok{, }\FunctionTok{nrow}\NormalTok{(cust\_group), }\StringTok{"}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{)}
+  \FunctionTok{cat}\NormalTok{(}\StringTok{"ID Pelanggan {-}"}\NormalTok{, cust\_group}\SpecialCharTok{$}\NormalTok{customer\_id, }\StringTok{"}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{)}
+  \FunctionTok{cat}\NormalTok{(}\StringTok{"==========================================================================================}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{)}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Jumlah pelanggan dalam kelompok 2 = 23 
+## ID Pelanggan - 1 3 5 7 9 11 13 15 17 19 21 23 25 27 29 31 33 35 37 39 41 43 45 
+## ==========================================================================================
+## Jumlah pelanggan dalam kelompok 4 = 22 
+## ID Pelanggan - 2 4 6 8 10 12 14 16 18 20 22 24 26 28 30 32 34 36 38 40 42 46 
+## ==========================================================================================
+## Jumlah pelanggan dalam kelompok 1 = 80 
+## ID Pelanggan - 44 47 48 49 50 51 52 53 54 55 56 57 58 59 60 61 62 63 64 65 66 67 68 69 70 71 72 73 74 75 76 77 78 79 80 81 82 83 84 85 86 87 88 89 90 91 92 93 94 95 96 97 98 99 100 101 102 103 104 105 106 107 108 109 110 111 112 113 114 115 116 117 118 119 120 121 122 123 127 143 
+## ==========================================================================================
+## Jumlah pelanggan dalam kelompok 5 = 38 
+## ID Pelanggan - 124 126 128 130 132 134 136 138 140 142 144 146 148 150 152 154 156 158 160 162 164 166 168 170 172 174 176 178 180 182 184 186 188 190 192 194 196 198 
+## ==========================================================================================
+## Jumlah pelanggan dalam kelompok 3 = 35 
+## ID Pelanggan - 125 129 131 133 135 137 139 141 145 147 149 151 153 155 157 159 161 163 165 167 169 171 173 175 177 179 181 183 185 187 189 191 193 195 197 
+## ==========================================================================================
+\end{verbatim}
+
+\hypertarget{model-regresi}{%
+\section{Model Regresi}\label{model-regresi}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{fitur\_regression }\OtherTok{\textless{}{-}} \FunctionTok{select}\NormalTok{(data\_excel, age, annual\_income, spending\_score)}
+\NormalTok{fitur\_regression\_scaled }\OtherTok{\textless{}{-}} \FunctionTok{scale}\NormalTok{(fitur\_regression)}
+\NormalTok{fitur\_regression\_scaled }\OtherTok{\textless{}{-}} \FunctionTok{as.data.frame}\NormalTok{(fitur\_regression\_scaled)}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{pemisahan-data-trian-dan-data-test}{%
+\subsubsection{Pemisahan data trian dan data
+test}\label{pemisahan-data-trian-dan-data-test}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{set.seed}\NormalTok{(}\DecValTok{123}\NormalTok{)  }\CommentTok{\# Untuk reproduksi hasil}
+\NormalTok{indeks\_data\_train }\OtherTok{\textless{}{-}} \FunctionTok{sample}\NormalTok{(}\DecValTok{1}\SpecialCharTok{:}\FunctionTok{nrow}\NormalTok{(fitur\_regression\_scaled), }\FloatTok{0.8} \SpecialCharTok{*} \FunctionTok{nrow}\NormalTok{(fitur\_regression\_scaled))}
+\NormalTok{data\_train }\OtherTok{\textless{}{-}}\NormalTok{ fitur\_regression\_scaled[indeks\_data\_train, ]}
+\NormalTok{data\_test }\OtherTok{\textless{}{-}}\NormalTok{ fitur\_regression\_scaled[}\SpecialCharTok{{-}}\NormalTok{indeks\_data\_train, ]}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{membuat-fungsi-untuk-evaluasi-model-dan-plotting}{%
+\subsubsection{Membuat fungsi untuk evaluasi model dan
+plotting}\label{membuat-fungsi-untuk-evaluasi-model-dan-plotting}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{evaluasi\_dan\_plot }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(model, nama\_model, data\_test) \{}
+\NormalTok{  prediksi\_spending }\OtherTok{\textless{}{-}} \FunctionTok{predict}\NormalTok{(model, }\AttributeTok{newdata =}\NormalTok{ data\_test)}
+\NormalTok{  mse }\OtherTok{\textless{}{-}} \FunctionTok{mean}\NormalTok{((prediksi\_spending }\SpecialCharTok{{-}}\NormalTok{ data\_test}\SpecialCharTok{$}\NormalTok{spending\_score)}\SpecialCharTok{\^{}}\DecValTok{2}\NormalTok{)}
+\NormalTok{  mae }\OtherTok{\textless{}{-}} \FunctionTok{mean}\NormalTok{(}\FunctionTok{abs}\NormalTok{(prediksi\_spending }\SpecialCharTok{{-}}\NormalTok{ data\_test}\SpecialCharTok{$}\NormalTok{spending\_score))}
+\NormalTok{  rmse }\OtherTok{\textless{}{-}} \FunctionTok{sqrt}\NormalTok{(mse)}
+  
+  \FunctionTok{cat}\NormalTok{(nama\_model, }\StringTok{"Mean Squared Error (MSE):"}\NormalTok{, mse, }\StringTok{"}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{)}
+  \FunctionTok{cat}\NormalTok{(nama\_model, }\StringTok{"Mean Absolute Error (MAE):"}\NormalTok{, mae, }\StringTok{"}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{)}
+  \FunctionTok{cat}\NormalTok{(nama\_model, }\StringTok{"Root Mean Squared Error (RMSE):"}\NormalTok{, rmse, }\StringTok{"}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{)}
+  
+  \CommentTok{\# Plot hasil prediksi}
+  \FunctionTok{plot}\NormalTok{(data\_test}\SpecialCharTok{$}\NormalTok{annual\_income, data\_test}\SpecialCharTok{$}\NormalTok{spending\_score, }\AttributeTok{main =}\NormalTok{ nama\_model, }
+       \AttributeTok{xlab =} \StringTok{"Annual Income"}\NormalTok{, }\AttributeTok{ylab =} \StringTok{"Spending Score"}\NormalTok{, }\AttributeTok{pch =} \DecValTok{16}\NormalTok{, }\AttributeTok{col =} \StringTok{"blue"}\NormalTok{)}
+  \FunctionTok{points}\NormalTok{(data\_test}\SpecialCharTok{$}\NormalTok{annual\_income, prediksi\_spending, }\AttributeTok{pch =} \DecValTok{16}\NormalTok{, }\AttributeTok{col =} \StringTok{"red"}\NormalTok{)}
+  \FunctionTok{legend}\NormalTok{(}\StringTok{"topright"}\NormalTok{, }\AttributeTok{legend =} \FunctionTok{c}\NormalTok{(}\StringTok{"Actual"}\NormalTok{, }\StringTok{"Predicted"}\NormalTok{), }\AttributeTok{col =} \FunctionTok{c}\NormalTok{(}\StringTok{"blue"}\NormalTok{, }\StringTok{"red"}\NormalTok{), }\AttributeTok{pch =} \DecValTok{16}\NormalTok{)}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{regresi-linier}{%
+\subsubsection{Regresi Linier}\label{regresi-linier}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{regresi\_linier\_model }\OtherTok{\textless{}{-}} \FunctionTok{lm}\NormalTok{(spending\_score }\SpecialCharTok{\textasciitilde{}}\NormalTok{ annual\_income }\SpecialCharTok{+}\NormalTok{ age , }\AttributeTok{data =}\NormalTok{ data\_train)}
+\FunctionTok{evaluasi\_dan\_plot}\NormalTok{(regresi\_linier\_model, }\StringTok{"Regresi Linier"}\NormalTok{, data\_test)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Regresi Linier Mean Squared Error (MSE): 0.8223356 
+## Regresi Linier Mean Absolute Error (MAE): 0.7702023 
+## Regresi Linier Root Mean Squared Error (RMSE): 0.9068272
+\end{verbatim}
+
+\includegraphics{uts-imelda_files/figure-latex/unnamed-chunk-30-1.pdf}
+
+\hypertarget{regresi-polinomial}{%
+\subsubsection{Regresi Polinomial}\label{regresi-polinomial}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{regresi\_polinomial\_model }\OtherTok{\textless{}{-}} \FunctionTok{lm}\NormalTok{(spending\_score }\SpecialCharTok{\textasciitilde{}} \FunctionTok{poly}\NormalTok{(annual\_income }\SpecialCharTok{+}\NormalTok{ age, }\AttributeTok{degree =} \DecValTok{2}\NormalTok{), }\AttributeTok{data =}\NormalTok{ data\_train)}
+\FunctionTok{evaluasi\_dan\_plot}\NormalTok{(regresi\_polinomial\_model, }\StringTok{"Regresi Polinomial"}\NormalTok{, data\_test)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Regresi Polinomial Mean Squared Error (MSE): 0.9105892 
+## Regresi Polinomial Mean Absolute Error (MAE): 0.7536616 
+## Regresi Polinomial Root Mean Squared Error (RMSE): 0.954248
+\end{verbatim}
+
+\includegraphics{uts-imelda_files/figure-latex/unnamed-chunk-31-1.pdf}
+
+\hypertarget{regresi-random-forest}{%
+\subsubsection{Regresi Random Forest}\label{regresi-random-forest}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{rf\_model }\OtherTok{\textless{}{-}} \FunctionTok{randomForest}\NormalTok{(spending\_score }\SpecialCharTok{\textasciitilde{}}\NormalTok{ annual\_income }\SpecialCharTok{+}\NormalTok{ age, }\AttributeTok{data =}\NormalTok{ data\_train, }\AttributeTok{ntree =} \DecValTok{500}\NormalTok{)}
+\FunctionTok{evaluasi\_dan\_plot}\NormalTok{(rf\_model, }\StringTok{"Random Forest"}\NormalTok{, data\_test)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Random Forest Mean Squared Error (MSE): 0.5685033 
+## Random Forest Mean Absolute Error (MAE): 0.5722107 
+## Random Forest Root Mean Squared Error (RMSE): 0.7539916
+\end{verbatim}
+
+\includegraphics{uts-imelda_files/figure-latex/unnamed-chunk-32-1.pdf}
+
+\hypertarget{support-vector-machine-svm}{%
+\subsubsection{Support Vector Machine
+(SVM)}\label{support-vector-machine-svm}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{svm\_model }\OtherTok{\textless{}{-}} \FunctionTok{svm}\NormalTok{(spending\_score }\SpecialCharTok{\textasciitilde{}}\NormalTok{ annual\_income }\SpecialCharTok{+}\NormalTok{ age, }\AttributeTok{data =}\NormalTok{ data\_train)}
+\FunctionTok{evaluasi\_dan\_plot}\NormalTok{(svm\_model, }\StringTok{"Support Vector Machine"}\NormalTok{, data\_test)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Support Vector Machine Mean Squared Error (MSE): 0.6129442 
+## Support Vector Machine Mean Absolute Error (MAE): 0.581801 
+## Support Vector Machine Root Mean Squared Error (RMSE): 0.7829075
+\end{verbatim}
+
+\includegraphics{uts-imelda_files/figure-latex/unnamed-chunk-33-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Bar plot untuk komparasi performa model}
+\NormalTok{model\_names }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\StringTok{"Regresi Linier"}\NormalTok{, }\StringTok{"Regresi Polinomial"}\NormalTok{, }\StringTok{"Random Forest"}\NormalTok{, }\StringTok{"SVM"}\NormalTok{)}
+\NormalTok{mse\_values }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}
+  \FunctionTok{mean}\NormalTok{((}\FunctionTok{predict}\NormalTok{(regresi\_linier\_model, }\AttributeTok{newdata =}\NormalTok{ data\_test) }\SpecialCharTok{{-}}\NormalTok{ data\_test}\SpecialCharTok{$}\NormalTok{spending\_score)}\SpecialCharTok{\^{}}\DecValTok{2}\NormalTok{),}
+  \FunctionTok{mean}\NormalTok{((}\FunctionTok{predict}\NormalTok{(regresi\_polinomial\_model, }\AttributeTok{newdata =}\NormalTok{ data\_test) }\SpecialCharTok{{-}}\NormalTok{ data\_test}\SpecialCharTok{$}\NormalTok{spending\_score)}\SpecialCharTok{\^{}}\DecValTok{2}\NormalTok{),}
+  \FunctionTok{mean}\NormalTok{((}\FunctionTok{predict}\NormalTok{(rf\_model, }\AttributeTok{newdata =}\NormalTok{ data\_test) }\SpecialCharTok{{-}}\NormalTok{ data\_test}\SpecialCharTok{$}\NormalTok{spending\_score)}\SpecialCharTok{\^{}}\DecValTok{2}\NormalTok{),}
+  \FunctionTok{mean}\NormalTok{((}\FunctionTok{predict}\NormalTok{(svm\_model, }\AttributeTok{newdata =}\NormalTok{ data\_test) }\SpecialCharTok{{-}}\NormalTok{ data\_test}\SpecialCharTok{$}\NormalTok{spending\_score)}\SpecialCharTok{\^{}}\DecValTok{2}\NormalTok{)}
+\NormalTok{)}
+\NormalTok{mae\_values }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}
+  \FunctionTok{mean}\NormalTok{(}\FunctionTok{abs}\NormalTok{(}\FunctionTok{predict}\NormalTok{(regresi\_linier\_model, }\AttributeTok{newdata =}\NormalTok{ data\_test) }\SpecialCharTok{{-}}\NormalTok{ data\_test}\SpecialCharTok{$}\NormalTok{spending\_score)),}
+  \FunctionTok{mean}\NormalTok{(}\FunctionTok{abs}\NormalTok{(}\FunctionTok{predict}\NormalTok{(regresi\_polinomial\_model, }\AttributeTok{newdata =}\NormalTok{ data\_test) }\SpecialCharTok{{-}}\NormalTok{ data\_test}\SpecialCharTok{$}\NormalTok{spending\_score)),}
+  \FunctionTok{mean}\NormalTok{(}\FunctionTok{abs}\NormalTok{(}\FunctionTok{predict}\NormalTok{(rf\_model, }\AttributeTok{newdata =}\NormalTok{ data\_test) }\SpecialCharTok{{-}}\NormalTok{ data\_test}\SpecialCharTok{$}\NormalTok{spending\_score)),}
+  \FunctionTok{mean}\NormalTok{(}\FunctionTok{abs}\NormalTok{(}\FunctionTok{predict}\NormalTok{(svm\_model, }\AttributeTok{newdata =}\NormalTok{ data\_test) }\SpecialCharTok{{-}}\NormalTok{ data\_test}\SpecialCharTok{$}\NormalTok{spending\_score))}
+\NormalTok{)}
+\NormalTok{rmse\_values }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}
+  \FunctionTok{sqrt}\NormalTok{(}\FunctionTok{mean}\NormalTok{((}\FunctionTok{predict}\NormalTok{(regresi\_linier\_model, }\AttributeTok{newdata =}\NormalTok{ data\_test) }\SpecialCharTok{{-}}\NormalTok{ data\_test}\SpecialCharTok{$}\NormalTok{spending\_score)}\SpecialCharTok{\^{}}\DecValTok{2}\NormalTok{)),}
+  \FunctionTok{sqrt}\NormalTok{(}\FunctionTok{mean}\NormalTok{((}\FunctionTok{predict}\NormalTok{(regresi\_polinomial\_model, }\AttributeTok{newdata =}\NormalTok{ data\_test) }\SpecialCharTok{{-}}\NormalTok{ data\_test}\SpecialCharTok{$}\NormalTok{spending\_score)}\SpecialCharTok{\^{}}\DecValTok{2}\NormalTok{)),}
+  \FunctionTok{sqrt}\NormalTok{(}\FunctionTok{mean}\NormalTok{((}\FunctionTok{predict}\NormalTok{(rf\_model, }\AttributeTok{newdata =}\NormalTok{ data\_test) }\SpecialCharTok{{-}}\NormalTok{ data\_test}\SpecialCharTok{$}\NormalTok{spending\_score)}\SpecialCharTok{\^{}}\DecValTok{2}\NormalTok{)),}
+  \FunctionTok{sqrt}\NormalTok{(}\FunctionTok{mean}\NormalTok{((}\FunctionTok{predict}\NormalTok{(svm\_model, }\AttributeTok{newdata =}\NormalTok{ data\_test) }\SpecialCharTok{{-}}\NormalTok{ data\_test}\SpecialCharTok{$}\NormalTok{spending\_score)}\SpecialCharTok{\^{}}\DecValTok{2}\NormalTok{))}
+\NormalTok{)}
+
+\NormalTok{performa\_model }\OtherTok{\textless{}{-}} \FunctionTok{data.frame}\NormalTok{(}\AttributeTok{Model =}\NormalTok{ model\_names, }\AttributeTok{MSE =}\NormalTok{ mse\_values, }\AttributeTok{MAE =}\NormalTok{ mae\_values, }\AttributeTok{RMSE =}\NormalTok{ rmse\_values)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{ggplot}\NormalTok{(performa\_model, }\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ Model, }\AttributeTok{y =}\NormalTok{ MSE, }\AttributeTok{fill =}\NormalTok{ Model, }\AttributeTok{label =} \FunctionTok{round}\NormalTok{(MSE, }\DecValTok{2}\NormalTok{))) }\SpecialCharTok{+}
+  \FunctionTok{geom\_bar}\NormalTok{(}\AttributeTok{stat =} \StringTok{"identity"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{geom\_text}\NormalTok{(}\AttributeTok{position =} \FunctionTok{position\_stack}\NormalTok{(}\AttributeTok{vjust =} \FloatTok{0.5}\NormalTok{), }\AttributeTok{color =} \StringTok{"white"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{labs}\NormalTok{(}\AttributeTok{title =} \StringTok{"Komparasi MSE Model Regresi"}\NormalTok{, }\AttributeTok{x =} \StringTok{"Model Regresi"}\NormalTok{, }\AttributeTok{y =} \StringTok{"Mean Squared Error (MSE)"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{theme}\NormalTok{(}\AttributeTok{axis.text.x =} \FunctionTok{element\_text}\NormalTok{(}\AttributeTok{angle =} \DecValTok{45}\NormalTok{, }\AttributeTok{hjust =} \DecValTok{1}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{uts-imelda_files/figure-latex/unnamed-chunk-35-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{ggplot}\NormalTok{(performa\_model, }\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ Model, }\AttributeTok{y =}\NormalTok{ MAE, }\AttributeTok{fill =}\NormalTok{ Model, }\AttributeTok{label =} \FunctionTok{round}\NormalTok{(MAE, }\DecValTok{2}\NormalTok{))) }\SpecialCharTok{+}
+  \FunctionTok{geom\_bar}\NormalTok{(}\AttributeTok{stat =} \StringTok{"identity"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{geom\_text}\NormalTok{(}\AttributeTok{position =} \FunctionTok{position\_stack}\NormalTok{(}\AttributeTok{vjust =} \FloatTok{0.5}\NormalTok{), }\AttributeTok{color =} \StringTok{"white"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{labs}\NormalTok{(}\AttributeTok{title =} \StringTok{"Komparasi MAE Model Regresi"}\NormalTok{, }\AttributeTok{x =} \StringTok{"Model Regresi"}\NormalTok{, }\AttributeTok{y =} \StringTok{"Mean Absolute Error (MAE)"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{theme}\NormalTok{(}\AttributeTok{axis.text.x =} \FunctionTok{element\_text}\NormalTok{(}\AttributeTok{angle =} \DecValTok{45}\NormalTok{, }\AttributeTok{hjust =} \DecValTok{1}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{uts-imelda_files/figure-latex/unnamed-chunk-36-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{ggplot}\NormalTok{(performa\_model, }\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ Model, }\AttributeTok{y =}\NormalTok{ RMSE, }\AttributeTok{fill =}\NormalTok{ Model, }\AttributeTok{label =} \FunctionTok{round}\NormalTok{(RMSE, }\DecValTok{2}\NormalTok{))) }\SpecialCharTok{+}
+  \FunctionTok{geom\_bar}\NormalTok{(}\AttributeTok{stat =} \StringTok{"identity"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{geom\_text}\NormalTok{(}\AttributeTok{position =} \FunctionTok{position\_stack}\NormalTok{(}\AttributeTok{vjust =} \FloatTok{0.5}\NormalTok{), }\AttributeTok{color =} \StringTok{"white"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{labs}\NormalTok{(}\AttributeTok{title =} \StringTok{"Komparasi RMSE Model Regresi"}\NormalTok{, }\AttributeTok{x =} \StringTok{"Model Regresi"}\NormalTok{, }\AttributeTok{y =} \StringTok{"Root Mean Squared Error (RMSE)"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{theme}\NormalTok{(}\AttributeTok{axis.text.x =} \FunctionTok{element\_text}\NormalTok{(}\AttributeTok{angle =} \DecValTok{45}\NormalTok{, }\AttributeTok{hjust =} \DecValTok{1}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{uts-imelda_files/figure-latex/unnamed-chunk-37-1.pdf}
+
+\end{document}

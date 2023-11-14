@@ -1,0 +1,350 @@
+---
+title: "UTS_202111547"
+output:
+  pdf_document: default
+  html_document: default
+date: "2023-11-09"
+---
+
+```{r, include = FALSE}
+library(readxl)
+library(tidyverse)
+library(cluster)
+library(randomForest)
+library(e1071)
+library(caret)
+library(glmnet)
+
+
+library(conflicted)
+conflict_prefer("dplyr", winner = "dplyr")
+```
+
+## Baca file dataset Mall_Customers.xlsx
+```{r}
+nama_file <- "./Mall_Customers.xlsx"
+data_excel <- read_excel(nama_file)
+```
+
+## Mengubah nama kolom untuk memudahkan pemanggilan dataset
+```{r}
+data_excel <- data_excel %>%
+  rename(
+    customer_id = CustomerID,
+    gender = Genre,
+    age = Age,
+    annual_income = `Annual Income (k$)`,
+    spending_score = `Spending Score (1-100)`
+  )
+
+print(head(data_excel, 5))
+```
+
+# Exploratory Data Analysis (EDA) pada dataset "Mall Customer"
+
+### Ringkasan statistik 
+```{r}
+summary(data_excel)
+```
+
+### Cek jika ada data kosong
+```{r}
+any(is.na(data_excel))
+```
+### Cek jika terdapat outlier pada dataset
+```{r}
+boxplot(data_excel[, c("age", "annual_income", "spending_score")])
+```
+Berdasarkan box plot diatas terlihat jika pada kolom annual_income terdapat outlier sehingga harus dihapus outlier pada dataset.
+
+### Identifikasi baris yang memiliki outlier pada kolom annual_income
+### lalu dilakukan penghapusan pada baris yang memiliki outlier
+```{r}
+identify_outliers <- function(x) {
+  q1 <- quantile(x, 0.25)
+  q3 <- quantile(x, 0.75)
+  iqr <- q3 - q1
+  lower_bound <- q1 - 1.5 * iqr
+  upper_bound <- q3 + 1.5 * iqr
+  
+  outliers <- x[x < lower_bound | x > upper_bound]
+  return(outliers)
+}
+
+# Menghitung jumlah baris sebelum menghapus outlier
+jumlah_baris_sebelum <- nrow(data_excel)
+
+# Identifikasi outlier pada annual_income
+outliers_annual_income <- identify_outliers(data_excel$annual_income)
+data_excel <- data_excel[!(data_excel$annual_income %in% outliers_annual_income), ]
+
+# Menghitung jumlah baris setelah menghapus outlier
+jumlah_baris_sesudah <- nrow(data_excel)
+
+# Menampilkan hasil
+print(paste("Jumlah baris sebelum menghapus outlier pada annual_income:", jumlah_baris_sebelum))
+print(paste("Jumlah baris setelah menghapus outlier pada annual_income:", jumlah_baris_sesudah))
+```
+### Visualisasi distribusi data usia menggunakan histogram
+```{r, echo = FALSE}
+ggplot(data_excel, aes(x = age)) +
+  geom_histogram(binwidth = 5, fill = "blue", color = "black") +
+  labs(title = "Distribusi Usia", x = "Usia", y = "Frekuensi")
+```
+### Visualisasi distribusi data pendatan tahunan menggunakan histogram
+```{r, echo = FALSE}
+ggplot(data_excel, aes(x = annual_income)) +
+  geom_histogram(binwidth = 5, fill = "blue", color = "black") +
+  labs(title = "Distribusi Pendapatan Tahunan", x = "Pendapatan Tahunan", y = "Frekuensi")
+```
+### Visualisasi distribusi data spending score menggunakan histogram
+```{r, echo = FALSE}
+ggplot(data_excel, aes(x = spending_score)) +
+  geom_histogram(binwidth = 5, fill = "blue", color = "black") +
+  labs(title = "Distribusi Spending Score", x = "Spending Score", y = "Frekuensi")
+```
+### Visualisasi distribusi data gender menggunakan histogram
+```{r, echo = FALSE}
+ggplot(data_excel, aes(x = gender, fill = gender)) +
+  geom_bar() +
+  labs(title = "Distribusi Gender", x = "Gender", y = "Frekuensi")
+```
+### Hubungan Antara Pendapatan Tahunan dan Umur (berdasarkan Gender)
+```{r, echo = FALSE}
+ggplot(data_excel, aes(x = annual_income, y = age, color = gender)) +
+  geom_point() +
+  labs(title = "Pendapatan Tahunan vs Umur", x = "Pendapatan Tahunan", y = "Umur")
+```
+### Hubungan Antara Skor Pengeluaran dan Umur (berdasarkan Gender)
+```{r, echo = FALSE}
+ggplot(data_excel, aes(x = spending_score, y = age , color = gender)) +
+  geom_point() +
+  labs(title = "Skor Pengeluaran vs Umur", x = "Pendapatan Tahunan", y = "Umur")
+```
+
+### Hubungan Antara Pendapatan Tahunan dan Skor Pengeluaran (berdasarkan Gender)
+```{r, echo = FALSE}
+ggplot(data_excel, aes(x = annual_income, y = spending_score, color = gender)) +
+  geom_point() +
+  labs(title = "Pendapatan Tahunan vs Skor Pengeluaran", x = "Pendapatan Tahunan", y = "Skor Pengeluaran")
+```
+### Menghitung jumlah pelanggan dalam setiap kelompok umur
+```{r}
+# Menentukan batas umur
+batas_umur <- c(15, 25, 35, 45, 55, Inf)
+
+# Menghitung jumlah pelanggan dalam setiap kelompok umur
+jumlah_pelanggan <- cut(data_excel$age, breaks = batas_umur, labels = c("15_25", "26_35", "36_45", "45_55", "diatas_55"), right = FALSE)
+jumlah_pelanggan <- table(jumlah_pelanggan)
+
+# Membuat plot bar
+barplot(jumlah_pelanggan, col = rainbow(length(jumlah_pelanggan)), 
+        main = "Barplot Umur Pelanggan", xlab = "Umur", ylab = "Jumlah Pelanggan", 
+        names.arg = c("15_25", "26_35", "36_45", "45_55", "diatas_55"), 
+        border = "black")
+```
+### Menghitung jumlah pelanggan dalam setiap kelompok Spending Score
+```{r}
+# Menghitung jumlah pelanggan dalam setiap kelompok Spending Score
+ss1_20 <- sum(data_excel$spending_score >= 1 & data_excel$spending_score <= 20)
+ss21_40 <- sum(data_excel$spending_score >= 21 & data_excel$spending_score <= 40)
+ss41_60 <- sum(data_excel$spending_score >= 41 & data_excel$spending_score <= 60)
+ss61_80 <- sum(data_excel$spending_score >= 61 & data_excel$spending_score <= 80)
+ss81_100 <- sum(data_excel$spending_score >= 81 & data_excel$spending_score <= 100)
+
+# Membuat plot bar
+x <- c("1_20", "21_40", "41_60", "61_80", "81_100")
+y <- c(ss1_20, ss21_40, ss41_60, ss61_80, ss81_100)
+barplot(y, col = rainbow(length(y)), 
+        main = "Spending Scores", xlab = "Score", ylab = "Jumlah Pelanggan", 
+        names.arg = x, border = "black")
+
+```
+### Menghitung jumlah pelanggan dalam setiap kelompok Annual Income
+```{r}
+ai0_30 <- sum(data_excel$annual_income >= 0 & data_excel$annual_income <= 30)
+ai31_60 <- sum(data_excel$annual_income >= 31 & data_excel$annual_income <= 60)
+ai61_90 <- sum(data_excel$annual_income >= 61 & data_excel$annual_income <= 90)
+ai91_120 <- sum(data_excel$annual_income >= 91 & data_excel$annual_income <= 120)
+ai121_150 <- sum(data_excel$annual_income >= 121 & data_excel$annual_income <= 150)
+
+# Membuat plot bar
+x <- c("0_30", "31_60", "61_90", "91_120", "120_150")
+y <- c(ai0_30, ai31_60, ai61_90, ai91_120, ai121_150)
+barplot(y, col = rainbow(length(y)), 
+        main = "Annual Income(k$)", xlab = "Pendapatan Tahunan", 
+        ylab = "Jumlah Pelanggan", names.arg = x, border = "black")
+```
+
+# K-Means Clustering
+### Pilih fitur yang akan digunakan untuk clustering
+```{r}
+fitur_clustering <- select(data_excel, age, annual_income, spending_score)
+encoded_gender <- model.matrix(~ gender - 1, data = data_excel)
+```
+
+### Normalisasi data
+```{r}
+fitur_clustering_scaled <- scale(fitur_clustering)
+```
+
+### Menentukan jumlah cluster dengan metode elbow
+```{r}
+wss <- (nrow(fitur_clustering_scaled) - 1) * sum(apply(fitur_clustering_scaled, 2, var))
+for (i in 1:10) wss[i] <- sum(kmeans(fitur_clustering_scaled, centers = i)$withinss)
+plot(1:10, wss, type="b", xlab="Number of Clusters", ylab="Within groups sum of squares")
+```
+
+### Berdasarkan plot, jumlah cluster optimal berdasarkan plot dengan metode elbow dipilih 5
+```{r}
+jumlah_cluster <- 5
+```
+
+### Melakukan clustering dengan K-Means
+```{r}
+fitur_clustering_scaled <- fitur_clustering_scaled[, c("annual_income", "spending_score")]
+kmeans_model <- kmeans(fitur_clustering_scaled, centers = jumlah_cluster)
+data_excel$cluster <- kmeans_model$cluster
+```
+
+
+### Scatter plot hasil dari clustering
+```{r}
+ggplot(data_excel, aes(x = annual_income, y = spending_score, color = as.factor(cluster))) +
+  geom_point() +
+  labs(title = "Hasil Clustering", x = "Pendapatan Tahunan", y = "Skor Pengeluaran", color = "Cluster") +
+  theme_minimal()
+```
+### Boxplot untuk distribusi Pendapatan Tahunan berdasarkan Label dari K-Means Clustering
+```{r}
+# Membuat boxplot menggunakan ggplot
+
+ggplot(data = data_excel, aes(x = as.factor(cluster), y = annual_income, fill = as.factor(cluster))) +
+  geom_boxplot() +
+  labs(title = "Pendapatan Tahunan Pelanggan Berdasarkan Label K-Means Clustering", 
+       x = "Label", y = "Pendapatan Tahunan (k$)") +
+  theme_minimal()
+```
+```{r}
+# Boxplot untuk distribusi Spending Score berdasarkan Label dari K-Means Clustering
+ggplot(data = data_excel, aes(x = as.factor(cluster), y = spending_score, fill = as.factor(cluster))) +
+  geom_boxplot() +
+  labs(title = "Spending Score Pelanggan Berdasarkan Label K-Means Clustering", 
+       x = "Label", y = "Spending Score") +
+  theme_minimal()
+```
+### Menampilkan informasi tentang setiap kelompok dari hasil k-means clustering
+```{r}
+for (label_value in unique(data_excel$cluster)) {
+  cust_group <- data_excel[data_excel$cluster == label_value, ]
+  cat("Jumlah pelanggan dalam kelompok", label_value, "=", nrow(cust_group), "\n")
+  cat("ID Pelanggan -", cust_group$customer_id, "\n")
+  cat("==========================================================================================\n")
+}
+```
+# Model Regresi
+```{r}
+fitur_regression <- select(data_excel, age, annual_income, spending_score)
+fitur_regression_scaled <- scale(fitur_regression)
+fitur_regression_scaled <- as.data.frame(fitur_regression_scaled)
+```
+
+### Pemisahan data trian dan data test
+```{r}
+set.seed(123)  # Untuk reproduksi hasil
+indeks_data_train <- sample(1:nrow(fitur_regression_scaled), 0.8 * nrow(fitur_regression_scaled))
+data_train <- fitur_regression_scaled[indeks_data_train, ]
+data_test <- fitur_regression_scaled[-indeks_data_train, ]
+```
+
+### Membuat fungsi untuk evaluasi model dan plotting
+```{r}
+evaluasi_dan_plot <- function(model, nama_model, data_test) {
+  prediksi_spending <- predict(model, newdata = data_test)
+  mse <- mean((prediksi_spending - data_test$spending_score)^2)
+  mae <- mean(abs(prediksi_spending - data_test$spending_score))
+  rmse <- sqrt(mse)
+  
+  cat(nama_model, "Mean Squared Error (MSE):", mse, "\n")
+  cat(nama_model, "Mean Absolute Error (MAE):", mae, "\n")
+  cat(nama_model, "Root Mean Squared Error (RMSE):", rmse, "\n")
+  
+  # Plot hasil prediksi
+  plot(data_test$annual_income, data_test$spending_score, main = nama_model, 
+       xlab = "Annual Income", ylab = "Spending Score", pch = 16, col = "blue")
+  points(data_test$annual_income, prediksi_spending, pch = 16, col = "red")
+  legend("topright", legend = c("Actual", "Predicted"), col = c("blue", "red"), pch = 16)
+}
+```
+
+### Regresi Linier
+```{r}
+regresi_linier_model <- lm(spending_score ~ annual_income + age , data = data_train)
+evaluasi_dan_plot(regresi_linier_model, "Regresi Linier", data_test)
+```
+
+### Regresi Polinomial
+```{r}
+regresi_polinomial_model <- lm(spending_score ~ poly(annual_income + age, degree = 2), data = data_train)
+evaluasi_dan_plot(regresi_polinomial_model, "Regresi Polinomial", data_test)
+```
+
+### Regresi Random Forest
+```{r}
+rf_model <- randomForest(spending_score ~ annual_income + age, data = data_train, ntree = 500)
+evaluasi_dan_plot(rf_model, "Random Forest", data_test)
+```
+
+### Support Vector Machine (SVM)
+```{r}
+svm_model <- svm(spending_score ~ annual_income + age, data = data_train)
+evaluasi_dan_plot(svm_model, "Support Vector Machine", data_test)
+```
+```{r}
+# Bar plot untuk komparasi performa model
+model_names <- c("Regresi Linier", "Regresi Polinomial", "Random Forest", "SVM")
+mse_values <- c(
+  mean((predict(regresi_linier_model, newdata = data_test) - data_test$spending_score)^2),
+  mean((predict(regresi_polinomial_model, newdata = data_test) - data_test$spending_score)^2),
+  mean((predict(rf_model, newdata = data_test) - data_test$spending_score)^2),
+  mean((predict(svm_model, newdata = data_test) - data_test$spending_score)^2)
+)
+mae_values <- c(
+  mean(abs(predict(regresi_linier_model, newdata = data_test) - data_test$spending_score)),
+  mean(abs(predict(regresi_polinomial_model, newdata = data_test) - data_test$spending_score)),
+  mean(abs(predict(rf_model, newdata = data_test) - data_test$spending_score)),
+  mean(abs(predict(svm_model, newdata = data_test) - data_test$spending_score))
+)
+rmse_values <- c(
+  sqrt(mean((predict(regresi_linier_model, newdata = data_test) - data_test$spending_score)^2)),
+  sqrt(mean((predict(regresi_polinomial_model, newdata = data_test) - data_test$spending_score)^2)),
+  sqrt(mean((predict(rf_model, newdata = data_test) - data_test$spending_score)^2)),
+  sqrt(mean((predict(svm_model, newdata = data_test) - data_test$spending_score)^2))
+)
+
+performa_model <- data.frame(Model = model_names, MSE = mse_values, MAE = mae_values, RMSE = rmse_values)
+```
+
+```{r}
+ggplot(performa_model, aes(x = Model, y = MSE, fill = Model, label = round(MSE, 2))) +
+  geom_bar(stat = "identity") +
+  geom_text(position = position_stack(vjust = 0.5), color = "white") +
+  labs(title = "Komparasi MSE Model Regresi", x = "Model Regresi", y = "Mean Squared Error (MSE)") +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+```
+
+```{r}
+ggplot(performa_model, aes(x = Model, y = MAE, fill = Model, label = round(MAE, 2))) +
+  geom_bar(stat = "identity") +
+  geom_text(position = position_stack(vjust = 0.5), color = "white") +
+  labs(title = "Komparasi MAE Model Regresi", x = "Model Regresi", y = "Mean Absolute Error (MAE)") +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+```
+
+```{r}
+ggplot(performa_model, aes(x = Model, y = RMSE, fill = Model, label = round(RMSE, 2))) +
+  geom_bar(stat = "identity") +
+  geom_text(position = position_stack(vjust = 0.5), color = "white") +
+  labs(title = "Komparasi RMSE Model Regresi", x = "Model Regresi", y = "Root Mean Squared Error (RMSE)") +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+```
